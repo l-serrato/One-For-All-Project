@@ -1,13 +1,13 @@
-DROP SCHEMA IF EXISTS SpotifyClone;
-CREATE SCHEMA SpotifyClone;
+DROP DATABASE IF EXISTS SpotifyClone;
+CREATE DATABASE SpotifyClone;
 USE SpotifyClone;
 
 CREATE TABLE plano_tabela 
 (
     plano_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     plano_tipo VARCHAR(20),
-    valor DOUBLE
-) ENGINE=InnoDB;
+    valor DECIMAL(5,2)
+) engine = InnoDB;
 
 INSERT INTO plano_tabela (plano_id, plano_tipo, valor) VALUES (1, 'gratuito', 0);
 INSERT INTO plano_tabela (plano_id, plano_tipo, valor) VALUES (2, 'familiar', 7.99);
@@ -22,7 +22,7 @@ CREATE TABLE usuario_tabela
     plano INT NOT NULL,
     data_assinatura	DATE NOT NULL,
     FOREIGN KEY (plano) REFERENCES plano_tabela (plano_id)
-) ENGINE=InnoDB;
+) engine = InnoDB;
 
 INSERT INTO usuario_tabela (pessoa_usuaria_id, nome_pessoa_usuaria, idade, plano, data_assinatura) VALUES (1, 'Barbara Liskov', 82, 1, '2019-10-20');
 INSERT INTO usuario_tabela (pessoa_usuaria_id, nome_pessoa_usuaria, idade, plano, data_assinatura) VALUES (2, 'Robert Cecil Martin', 58, 1, '2017-01-06');
@@ -37,9 +37,9 @@ INSERT INTO usuario_tabela (pessoa_usuaria_id, nome_pessoa_usuaria, idade, plano
 
 CREATE TABLE artista_tabela 
 (
-    artista_id	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    nome	VARCHAR(512)
-) ENGINE=InnoDB;
+    artista_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(512)
+) engine = InnoDB;
 
 INSERT INTO artista_tabela (artista_id, nome) VALUES (1, 'Beyoncé');
 INSERT INTO artista_tabela (artista_id, nome) VALUES (2, 'Queen');
@@ -55,7 +55,7 @@ CREATE TABLE album_tabela
     artista_id INT,
     ano_lancamento DATE NOT NULL,
     FOREIGN KEY (artista_id) REFERENCES artista_tabela (artista_id)
-) ENGINE=InnoDB;
+) engine = InnoDB;
 
 INSERT INTO album_tabela (album_id, album, artista_id, ano_lancamento) VALUES (1, 'Renaissance', 1, '2022');
 INSERT INTO album_tabela (album_id, album, artista_id, ano_lancamento) VALUES (2, 'Jazz', 2, '1978');
@@ -75,7 +75,7 @@ CREATE TABLE musica_tabela
     duracao_segundos INT,
     FOREIGN KEY (artista_id) REFERENCES artista_tabela (artista_id),
     FOREIGN KEY (album_id) REFERENCES album_tabela (album_id)
-) ENGINE=InnoDB;
+) engine = InnoDB;
 
 INSERT INTO musica_tabela (cancao_id, titulo, artista_id, album_id, duracao_segundos) VALUES (1, 'BREAK MY SOUL', 1, 1, 279);
 INSERT INTO musica_tabela (cancao_id, titulo, artista_id, album_id, duracao_segundos) VALUES (2, "VIRGO'S GROOVE", 1, 1, 369);
@@ -91,12 +91,12 @@ INSERT INTO musica_tabela (cancao_id, titulo, artista_id, album_id, duracao_segu
 CREATE TABLE reprod_tabela 
 (
     reproducao_id	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    data	DATE NOT NULL,
-    usuario_id	INT,
+    data DATE NOT NULL,
+    usuario_id INT,
     cancao_id	INT,
     FOREIGN KEY (usuario_id) REFERENCES usuario_tabela (pessoa_usuaria_id),
     FOREIGN KEY (cancao_id) REFERENCES musica_tabela (cancao_id)
-) ENGINE=InnoDB;
+) engine = InnoDB;
 
 INSERT INTO reprod_tabela (reproducao_id, data, usuario_id, cancao_id) VALUES (1, '2011-12-15 22:30:49', 7, 4);
 INSERT INTO reprod_tabela (reproducao_id, data, usuario_id, cancao_id) VALUES (2, '2012-03-17 14:56:41', 8, 4);
@@ -120,10 +120,10 @@ CREATE TABLE seguindo_tabela
     interacao_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id	INT,
     segue INT,
-    artista_id	INT,
+    artista_id INT,
     FOREIGN KEY (user_id) REFERENCES usuario_tabela (pessoa_usuaria_id),
     FOREIGN KEY (artista_id) REFERENCES artista_tabela (artista_id)    
-) ENGINE=InnoDB;
+) engine = InnoDB;
 
 INSERT INTO seguindo_tabela (interacao_id, user_id, segue, artista_id) VALUES (1, 1, 1, 1);
 INSERT INTO seguindo_tabela (interacao_id, user_id, segue, artista_id) VALUES (2, 1, 1, 2);
