@@ -53,7 +53,7 @@ CREATE TABLE album_tabela
     album_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     album VARCHAR(512),
     artista_id INT,
-    ano_lancamento DATE NOT NULL,
+    ano_lancamento YEAR NOT NULL,
     FOREIGN KEY (artista_id) REFERENCES artista_tabela (artista_id)
 ) engine = InnoDB;
 
@@ -90,10 +90,11 @@ INSERT INTO musica_tabela (cancao_id, titulo, artista_id, album_id, duracao_segu
 
 CREATE TABLE reprod_tabela 
 (
-    reproducao_id	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    reproducao_id	INT NOT NULL AUTO_INCREMENT,
     data DATE NOT NULL,
     usuario_id INT,
     cancao_id	INT,
+    CONSTRAINT PRIMARY KEY(reproducao_id, usuario_id, cancao_id),
     FOREIGN KEY (usuario_id) REFERENCES usuario_tabela (pessoa_usuaria_id),
     FOREIGN KEY (cancao_id) REFERENCES musica_tabela (cancao_id)
 ) engine = InnoDB;
@@ -117,10 +118,11 @@ INSERT INTO reprod_tabela (reproducao_id, data, usuario_id, cancao_id) VALUES (1
 
 CREATE TABLE seguindo_tabela 
 (
-    interacao_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    interacao_id INT NOT NULL AUTO_INCREMENT,
     user_id	INT,
     segue INT,
     artista_id INT,
+    CONSTRAINT PRIMARY KEY(interacao_id, user_id),
     FOREIGN KEY (user_id) REFERENCES usuario_tabela (pessoa_usuaria_id),
     FOREIGN KEY (artista_id) REFERENCES artista_tabela (artista_id)    
 ) engine = InnoDB;
